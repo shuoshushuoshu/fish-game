@@ -35,9 +35,12 @@ game.load = function(container)
 	
 	if(Q.isMobile || Q.isIphone)
 	{
-		this.width =  document.body.offsetWidth
-		this.height =  document.body.offsetHeight
-		Q.addMeta({name:"viewport", content:"user-scalable=no"});
+		this.width = document.body.offsetHeight;
+		this.height = document.body.offsetWidth;
+		// this.height =  document.body.offsetHeight
+		// this.width = window.innerWidth
+		// this.height = window.innerHeight
+	Q.addMeta({name:"viewport", content:"user-scalable=no"});
 }else
 	{		
 		Q.addMeta({name:"viewport", content:"user-scalable=no, initial-scale=1.0, minimum-scale=1, maximum-scale=1"});
@@ -45,15 +48,14 @@ game.load = function(container)
 		this.height = Math.min(768, window.innerHeight);
 }
 
-	// if(params.width) this.width = Number(params.width) || this.width;
-	// if(params.height) this.height = Number(params.height) || this.height;
-	// alert(this.width)
+	if(params.width) this.width = Number(params.width) || this.width;
+	if(params.height) this.height = Number(params.height) || this.height;
 	
 	//初始化容器设置
 	this.container = container || Q.getDOM("container");
 	this.container.style.overflow = "hidden";
-	this.container.style.width = this.width + "px";
-	this.container.style.height = this.height + "px";
+	this.container.style.width = this.height + "px";
+	this.container.style.height = this.width + "px";
 	this.screenWidth = window.innerWidth;
 	this.screenHeight = window.innerHeight;
 	
@@ -127,7 +129,7 @@ game.startup = function()
 	var context = null;
 	if(this.params.mode == 1)
 	{
-		var canvas = Q.createDOM("canvas", {id:"canvas", width:this.width, height:this.height, style:{position:"absolute"}});
+		var canvas = Q.createDOM("canvas", {id:"canvas", width:this.height, height:this.width, style:{position:"absolute"}});
 		this.container.appendChild(canvas);
 		this.context = new Q.CanvasContext({canvas:canvas});
 	}else
@@ -135,14 +137,14 @@ game.startup = function()
 		this.context = new Q.DOMContext({canvas:this.container});
 	}
 	
-	this.stage = new Q.Stage({width:this.width, height:this.height, context:this.context, update:Q.delegate(this.update, this)});
+	this.stage = new Q.Stage({width:this.height, height:this.width, context:this.context, update:Q.delegate(this.update, this)});
 		
 	var em = this.evtManager = new Q.EventManager();
 	em.registerStage(this.stage, this.events, true, true);	
 	
 	this.initUI();
+	this.resizeUI()
 	this.initPlayer();
-	
 	//this.testFish();
 	//this.testFishDirection();
 	//this.testFishALL();
@@ -161,8 +163,8 @@ game.startup = function()
 game.initUI = function()
 {
 	this.bg = new Q.Bitmap({id:"bg", image:ns.R.mainbg, transformEnabled:false});
-	
-	this.fishContainer = new Q.DisplayObjectContainer({id:"fishContainer", width:this.width, height:this.height, eventChildren:false, transformEnabled:false});
+  
+	this.fishContainer = new Q.DisplayObjectContainer({id:"fishContainer", width:this.height, height:this.width, eventChildren:false, transformEnabled:false});
 	this.fishContainer.onEvent = function(e)
 	{
 		if(e.type == game.events[0] && game.fireCount >= game.fireInterval)
@@ -171,14 +173,58 @@ game.initUI = function()
 			game.player.fire({x:e.eventX, y:e.eventY});
 		}
 	};
-		
 	this.bottom = new Q.Bitmap(ns.R.bottombar);
 	this.bottom.id = "bottom";
 	this.bottom.x = this.width - this.bottom.width >> 1;
 	this.bottom.y = this.height - this.bottom.height + 2;
 	this.bottom.transformEnabled = false;
-	
-	this.stage.addChild(this.bg, this.fishContainer, this.bottom);	
+	this.stage.addChild(this.bg, this.fishContainer, this.bottom);
+};
+
+game.resizeUI=function() {
+  // var body = document.getElementsByTagName('body')[0];
+  // var html = document.getElementsByTagName('html')[0];
+  // var width = html.clientWidth;
+  // var height =  html.clientHeight;
+  // var max = width > height ? width : height;
+	// var min = width > height ? height : width;
+  // body.style.width = max + "px";
+  // body.style.height = min + "px";
+	var width = document.documentElement.clientWidth;
+  var height =  document.documentElement.clientHeight;
+	if( width < height ){
+		var con = document.getElementById('container');
+		con.style.width = height;
+		con.style.height = width;
+		con.style.top = (height-width)/2;
+		con.style.left = 0-(height-width)/2;
+    con.style.transform = 'rotate(90deg)';
+    con.style.transformOrigin = '50% 50%';
+	}
+
+	var evt = "onorientationchange" in window ? "orientationchange" : "resize";
+	window.addEventListener(evt, function() {
+		console.log(evt);
+		var width = document.documentElement.clientWidth;
+		var height =  document.documentElement.clientHeight;
+		var con = document.getElementById('container');
+		if( width > height ){
+			con.style.width = width;
+			con.style.height = height;
+			con.style.top = 0;
+			con.style.left = 0;
+			con.style.transform = 'none';
+			con.style.transformOrigin = '50% 50%';
+		} else {
+			con.style.width = height;
+			con.style.height = width;
+			con.style.top = (height-width)/2;
+			con.style.left = 0-(height-width)/2;
+			con.style.transform = 'rotate(90deg)';
+			con.style.transformOrigin = '50% 50%';
+		}
+		
+}, false);
 };
 
 game.initPlayer = function()

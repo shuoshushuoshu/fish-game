@@ -13,7 +13,7 @@ R.sources =
 	//{id:"cannon", size:50, src:"images/cannon-hd.png?"+Math.random()},
 	//{id:"fish", size:50, src:"images/fish-hd.png?"+Math.random()},
 	//{id:"shark", size:50, src:"images/shark-hd.png?"+Math.random()},
-	{id:"mainbg", size:456, src:"images/game_bg_2_hd.jpg?"+Math.random()},
+	{id:"mainbg", size:456, src:"images/game_bg_3_hd.jpg?"+Math.random()},
 	{id:"bottom", size:50, src:"images/bottom.png?"+Math.random()},
 	{id:"fish1", size:6, src:"images/fish1.png?"+Math.random()},
 	{id:"fish2", size:16, src:"images/fish2.png?"+Math.random()},

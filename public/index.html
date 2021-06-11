@@ -14,7 +14,7 @@
         -webkit-interpolation-mode: nearest-neighbor;
     }
     body{padding:0; margin:0;font-size:12px;background-color:#000;}
-    body, html{height: 100%;}
+    body, html{height: 100%;width: 100%;overflow: hidden;}
     #outer{height:100%; overflow:hidden; position:relative; width:100%;}
     #outer[id]{display:table; position:static;}
     #middle{position:absolute; top:50%;} /* for ie only*/
@@ -23,6 +23,7 @@
     <title>报刊先生</title>
     <script type="text/javascript" src="quark.base-1.0.0.alpha.min.js"></script>
     <!-- <script type="text/javascript" src="src/fishjoy.game.js"></script> -->
+    <script type="text/javascript" src="rem.js"></script>
     <script type="text/javascript" src="R.js"></script>
     <script type="text/javascript" src="Utils.js"></script>
     <script type="text/javascript" src="fishjoy.js"></script>
@@ -45,7 +46,7 @@
     </noscript>
     <div id="outer">
       <div id="middle">
-        <div id="container" style="position:relative;width:980px;height:545px;top:-50%;margin:0 auto;"></div>
+        <div id="container" style="position:relative;width:980px;height:545px;margin:0 auto;"></div>
         <div id="msg"></div>
       </div>
     </div>
