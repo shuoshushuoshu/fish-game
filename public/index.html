@@ -14,11 +14,12 @@
         -webkit-interpolation-mode: nearest-neighbor;
     }
     body{padding:0; margin:0;font-size:12px;background-color:#000;}
-    body, html{height: 100%;width: 100%;overflow: hidden;}
-    #outer{height:100%; overflow:hidden; position:relative; width:100%;}
+    body, html{height: 100vh;width: 100vw;overflow: hidden;}
+    #outer{height:100vh; overflow:hidden; position:relative; width:100vw;}
     #outer[id]{display:table; position:static;}
     #middle{position:absolute; top:50%;} /* for ie only*/
     #middle[id]{display:table-cell; vertical-align:middle; position:static;}
+    /* #middle[id]{display:flex;justify-content: flex-start;align-items: flex-start; position:static;} */
     </style>
     <title>报刊先生</title>
     <script type="text/javascript" src="quark.base-1.0.0.alpha.min.js"></script>

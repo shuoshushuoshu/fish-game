@@ -75,10 +75,11 @@ FishManager.prototype.makeFish = function()
 	if(num <= 0) return;
 	
 	//initialize fish properties
-	var group = this.fishPool.splice(0, num), cy = game.height >> 1;
+	var group = this.fishPool.splice(0, num), cy = game.screenHeight >> 1;
 	var typeWidth = type.frames[0].rect[2], typeHeight = type.frames[0].rect[3];
-	var sx = Math.random() > 0.5 ? -typeWidth : game.width + typeWidth;
-	var sy = Math.random()* 200 + (game.height >> 1) - 100 >> 0;
+	var sx = Math.random() > 0.5 ? -typeWidth : game.screenHeight + typeWidth;
+	var sy = Math.random()* 200 + (game.screenWidth >> 1) - 100 >> 0;
+	console.log(sx, sy)
 	var speed = Math.random()*(type.mixin.maxSpeed - type.mixin.minSpeed) + type.mixin.minSpeed;
 	var degree = (Math.random() * 20 - 10 >> 0);
 	if(sx > 0) degree += 180;

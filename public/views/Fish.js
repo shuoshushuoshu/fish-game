@@ -6,7 +6,7 @@ var ns = Q.use("fish"), game = ns.game;
 var Fish = ns.Fish = function(type)
 {
 	this.type = type;
-	this.speed = 0.5;
+	this.speed = 2;
 	this.moving = true;
 	this.canTurning = false;
 	this.hasShown = false;
@@ -147,9 +147,9 @@ Fish.prototype.update = function()
 Fish.prototype.isOutOfScreen = function()
 {
 	if(this.x < -this.width ||
-	   this.x > game.width + this.width ||
+	   this.x > game.screenHight + this.width ||
 	   this.y < -this.height ||
-	   this.y > game.height + this.height)
+	   this.y > game.screenWidth + this.height)
 	{
 		return true;
 	}else if(this.x > 100 && this.x < game.width - 100 && this.y > 100 && this.y < game.height - 100)

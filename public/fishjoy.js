@@ -54,8 +54,9 @@ game.load = function(container)
 	//初始化容器设置
 	this.container = container || Q.getDOM("container");
 	this.container.style.overflow = "hidden";
-	this.container.style.width = this.height + "px";
-	this.container.style.height = this.width + "px";
+	this.container.style.width = "100vh";
+	this.container.style.height = "100vw";
+	this.container.style.right = "58vw";
 	this.screenWidth = window.innerWidth;
 	this.screenHeight = window.innerHeight;
 	
@@ -137,8 +138,7 @@ game.startup = function()
 		this.context = new Q.DOMContext({canvas:this.container});
 	}
 	
-	this.stage = new Q.Stage({width:this.height, height:this.width, context:this.context, update:Q.delegate(this.update, this)});
-		
+	this.stage = new Q.Stage({width:this.screenHeight, height:this.screenWidth, context:this.context, update:Q.delegate(this.update, this)});
 	var em = this.evtManager = new Q.EventManager();
 	em.registerStage(this.stage, this.events, true, true);	
 	
@@ -163,8 +163,16 @@ game.startup = function()
 game.initUI = function()
 {
 	this.bg = new Q.Bitmap({id:"bg", image:ns.R.mainbg, transformEnabled:false});
-  
-	this.fishContainer = new Q.DisplayObjectContainer({id:"fishContainer", width:this.height, height:this.width, eventChildren:false, transformEnabled:false});
+  this.bg.height = this.screenWidth
+  this.bg.width = this.screenHeight
+	setTimeout(() => {
+		var bgDom = document.getElementById('bg')
+		bgDom.style.backgroundSize = "100% 100%"
+	}, 100);
+	
+	// bgDom.style.backgroundSize= "100% 100%"
+	// bgDom.style.backgroundReapte= "norepate"
+	this.fishContainer = new Q.DisplayObjectContainer({id:"fishContainer", width:this.screenHeight, height:this.screenWidth, eventChildren:false, transformEnabled:false});
 	this.fishContainer.onEvent = function(e)
 	{
 		if(e.type == game.events[0] && game.fireCount >= game.fireInterval)
@@ -175,8 +183,8 @@ game.initUI = function()
 	};
 	this.bottom = new Q.Bitmap(ns.R.bottombar);
 	this.bottom.id = "bottom";
-	this.bottom.x = this.width - this.bottom.width >> 1;
-	this.bottom.y = this.height - this.bottom.height + 2;
+	this.bottom.x = this.screenHeight - this.bottom.width >> 1;
+	this.bottom.y = this.screenWidth - this.bottom.height + 2;
 	this.bottom.transformEnabled = false;
 	this.stage.addChild(this.bg, this.fishContainer, this.bottom);
 };
@@ -250,8 +258,9 @@ game.testFish = function()
 		var type = ns.R.fishTypes[index];
 		
 		var fish = new ns.Fish(type);
-		fish.x = Math.random()*this.width >> 0;
-		fish.y = Math.random()*this.height >> 0;
+		fish.x = Math.random()*this.screenHeight;
+		fish.y = Math.random()*this.screenWidth;
+		console.log(fish.x, fish.y)
 		fish.moving = true;
 		fish.rotation = Math.random() * 360 >> 0;
 		fish.init();

@@ -28,8 +28,7 @@ Player.prototype.init = function()
 	this.cannon.id = "cannon";
 	this.cannon.x = game.bottom.x + 425;
 	this.cannon.y = game.bottom.y + 60;
-	this.cannon.y = game.height - 10;
-	
+	this.cannon.y = window.innerWidth;
 	this.cannonMinus = new Q.Button(ns.R.cannonMinus);
 	this.cannonMinus.id = "cannonMinus";
 	this.cannonMinus.x = game.bottom.x + 340;
